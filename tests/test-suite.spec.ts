@@ -28,6 +28,21 @@ test.describe('Automation Exercise Website Test Suite', () => {
     await expect(productLink).toBeVisible();
   });
 
+  // Agregar producto a carrito fail
+  test('Miss product button and verify it is not in cart', async ({ page }) => {
+    // Verificar seccion de productos recomendados
+    const recommendedItemsHeading = page.getByRole('heading', { name: 'recommended items' });
+    await expect(recommendedItemsHeading).toBeVisible();
+    await recommendedItemsHeading.click();
+    
+    // Verificar y hacer click en View Cart
+    await page.getByRole('link', { name: ' Cart' }).click();
+    
+    // Verificar nombre del producto
+    const productLink = page.getByRole('link', { name: 'Stylish Dress' });
+    await expect(productLink).not.toBeVisible();
+  });
+
   //  Agregar review
   test('add product review and verify', async ({ page }) => {
     // Navegar a la pagina de productos
@@ -79,5 +94,51 @@ test.describe('Automation Exercise Website Test Suite', () => {
     const successMessage = page.getByText('Thank you for your review.');
     await expect(successMessage).toBeVisible();
     await successMessage.click();
+  });
+
+  // Agregar Review Fail
+  test('review message not visible if email is missing', async ({ page }) => {
+
+    // Navegar a la pagina de productos
+    const productsLink = page.getByRole('link', { name: ' Products' });
+    await expect(productsLink).toBeVisible();
+    await productsLink.click();
+    
+    // Verificar encabezado de todos los productos
+    const allProductsHeading = page.getByRole('heading', { name: 'All Products' });
+    await expect(allProductsHeading).toBeVisible();
+    await allProductsHeading.click();
+    
+    // Hacer click en view product link (4th product)
+    const viewProductLink = page.locator('div:nth-child(4) > .product-image-wrapper > .choose > .nav > li > a');
+    await viewProductLink.click();
+    
+    // Hacer click en Write Your Review link
+    const writeReviewLink = page.getByRole('link', { name: 'Write Your Review' });
+    await expect(writeReviewLink).toBeVisible();
+    await writeReviewLink.click();
+
+    // Fill the name input only
+    const nameInput = page.getByRole('textbox', { name: 'Your Name', exact: true });
+    await expect(nameInput).toBeVisible();
+    await nameInput.fill('juan');
+  
+    // Click to continue (if needed)
+    await page.getByText('Thank you for your review. Submit').click();
+  
+    // No llenar el correo
+  
+    // Llenar review
+    const reviewTextarea = page.getByRole('textbox', { name: 'Add Review Here!' });
+    await expect(reviewTextarea).toBeVisible();
+    await reviewTextarea.fill('buen producto');
+  
+    // Hacer submit
+    const submitButton = page.getByRole('button', { name: 'Submit' });
+    await expect(submitButton).toBeVisible();
+    await submitButton.click();
+  
+    // Verificar que no se muestre el mensaje de exito
+    await expect(page.getByText('Thank you for your review.')).not.toBeVisible();
   });
 });
