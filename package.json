@@ -1,0 +1,18 @@
+{
+  "name": "m5-e2e",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test tests/test-suite.spec.ts",
+    "test:ui": "playwright test --ui",
+    "codegen": "playwright codegen",
+    "codegen:specific": "playwright codegen --output tests/specific-page.spec.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
