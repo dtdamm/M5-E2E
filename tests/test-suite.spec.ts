@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 // Suite
-test.describe('Automation Exercise Website Test Suite', () => {
+test.describe('Tarea Automation Exercise', () => {
   // Abrir pagina
   test.beforeEach(async ({ page }) => {
     await page.goto('https://automationexercise.com/');
